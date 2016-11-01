@@ -18,6 +18,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import mvp.shituocheng.com.weather_demo_mvp.Adapter.CustomRecyclerViewAdapter;
 import mvp.shituocheng.com.weather_demo_mvp.Utilities.API;
 import mvp.shituocheng.com.weather_demo_mvp.model.WeatherModel;
 
