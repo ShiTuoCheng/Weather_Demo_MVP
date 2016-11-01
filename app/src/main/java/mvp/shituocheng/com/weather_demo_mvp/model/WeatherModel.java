@@ -13,6 +13,15 @@ public class WeatherModel {
     private String low;
     private String type;
 
+    public WeatherModel(Builder builder) {
+        this.date = builder.date;
+        this.fengli = builder.fengli;
+        this.fengxiang = builder.fengxiang;
+        this.high = builder.high;
+        this.low = builder.low;
+        this.type = builder.type;
+    }
+
     public String getDate() {
         return date;
     }
@@ -59,5 +68,50 @@ public class WeatherModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public static class Builder{
+
+        private String date;
+        private String fengli;
+        private String fengxiang;
+        private String high;
+        private String low;
+        private String type;
+
+        public Builder fengli(String fengli){
+            this.fengli = fengli;
+            return this;
+        }
+
+        public Builder date(String date){
+            this.date = date;
+            return this;
+        }
+
+        public Builder fengxiang(String fengxiang){
+            this.fengxiang = fengxiang;
+            return this;
+        }
+
+        public Builder high(String high){
+            this.high = high;
+            return this;
+        }
+
+        public Builder low(String low){
+            this.low = low;
+            return this;
+        }
+
+        public Builder type(String type){
+            this.type = type;
+            return this;
+        }
+
+        public WeatherModel build(){
+            return new WeatherModel(this);
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 package mvp.shituocheng.com.weather_demo_mvp.biz;
 
+import android.app.AlertDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +56,6 @@ public class WeatherBiz implements IWeatherBiz {
                     while ((line = bufferedReader.readLine())!=null){
                         stringBuilder.append(line);
                     }
-
                     JSONObject jsonObject = new JSONObject(stringBuilder.toString());
 
                     JSONObject jObj = jsonObject.getJSONObject("data");
@@ -63,13 +64,17 @@ public class WeatherBiz implements IWeatherBiz {
 
                     for (int i=0; i<jsonArray.length();i++){
 
-                        WeatherModel weatherModel = new WeatherModel();
-
                         JSONObject eachObj = jsonArray.getJSONObject(i);
-                        weatherModel.setFengli(eachObj.getString("fengli"));
-                        weatherModel.setFengxiang(eachObj.getString("fengxiang"));
+
+                        WeatherModel.Builder builder = new WeatherModel.Builder();
+
+                        WeatherModel weatherModel = builder
+                                .fengli(eachObj.getString("fengli"))
+                                .fengxiang(eachObj.getString("fengxiang"))
+                                .build();
 
                         weatherModels.add(weatherModel);
+
                     }
 
                     onFetchDataListener.fetchSuccess(weatherModels);
