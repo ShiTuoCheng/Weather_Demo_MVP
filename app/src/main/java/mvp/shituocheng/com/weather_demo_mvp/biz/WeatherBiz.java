@@ -1,6 +1,6 @@
 package mvp.shituocheng.com.weather_demo_mvp.biz;
 
-import android.app.AlertDialog;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,16 +11,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import mvp.shituocheng.com.weather_demo_mvp.Adapter.CustomRecyclerViewAdapter;
 import mvp.shituocheng.com.weather_demo_mvp.Utilities.API;
 import mvp.shituocheng.com.weather_demo_mvp.model.WeatherModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by shituocheng on 2016/10/29.
@@ -34,7 +37,7 @@ public class WeatherBiz implements IWeatherBiz {
     @Override
     public Runnable fetchData(final OnFetchDataListener onFetchDataListener) {
 
-         return new Runnable() {
+        return new Runnable() {
             @Override
             public void run() {
 
@@ -44,7 +47,7 @@ public class WeatherBiz implements IWeatherBiz {
 
                 String api = API.getAPI();
                 try {
-                    connection = (HttpURLConnection)new URL(api).openConnection();
+                    connection = (HttpURLConnection) new URL(api).openConnection();
                     connection.setRequestMethod("GET");
                     connection.connect();
 
@@ -54,7 +57,7 @@ public class WeatherBiz implements IWeatherBiz {
 
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-                    while ((line = bufferedReader.readLine())!=null){
+                    while ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line);
                     }
                     JSONObject jsonObject = new JSONObject(stringBuilder.toString());
@@ -63,7 +66,7 @@ public class WeatherBiz implements IWeatherBiz {
 
                     JSONArray jsonArray = jObj.getJSONArray("forecast");
 
-                    for (int i=0; i<jsonArray.length();i++){
+                    for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject eachObj = jsonArray.getJSONObject(i);
 
@@ -84,7 +87,6 @@ public class WeatherBiz implements IWeatherBiz {
                     e.printStackTrace();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    onFetchDataListener.fetchFailed();
                 }
             }
         };

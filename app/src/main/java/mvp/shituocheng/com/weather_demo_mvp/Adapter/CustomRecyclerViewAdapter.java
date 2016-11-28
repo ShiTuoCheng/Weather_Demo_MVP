@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvp.shituocheng.com.weather_demo_mvp.R;
+import mvp.shituocheng.com.weather_demo_mvp.Utilities.OnRecyclerViewOnClickListener;
 import mvp.shituocheng.com.weather_demo_mvp.model.WeatherModel;
 
 /**
@@ -20,13 +21,25 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     private List<WeatherModel> weatherModels = new ArrayList<>();
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    private OnRecyclerViewOnClickListener onRecyclerViewOnClickListener;
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textView;
+        private OnRecyclerViewOnClickListener onRecyclerViewOnClickListener;
 
-        public ItemViewHolder(View itemView) {
+        public ItemViewHolder(View itemView, OnRecyclerViewOnClickListener onRecyclerViewOnClickListener) {
             super(itemView);
             textView = (TextView)itemView.findViewById(R.id.text);
+            this.onRecyclerViewOnClickListener = onRecyclerViewOnClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (onRecyclerViewOnClickListener != null){
+                onRecyclerViewOnClickListener.OnItemClick(view, getLayoutPosition());
+            }
         }
     }
 
@@ -39,7 +52,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
 
-        ItemViewHolder itemViewHolder = new ItemViewHolder(v);
+        ItemViewHolder itemViewHolder = new ItemViewHolder(v, onRecyclerViewOnClickListener);
 
         return itemViewHolder;
     }
